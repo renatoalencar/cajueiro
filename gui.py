@@ -33,6 +33,7 @@ class MainWindow(gtk.Window):
 			self.tree = AVLTree()
 
 		self.image = gtk.Image()
+		self.fs = False # is fullscreen 
 		vbox.add(self.image)
 
 		self.input = gtk.EntryBuffer('',0)
@@ -110,12 +111,23 @@ class MainWindow(gtk.Window):
 		btn.connect('clicked', self.loadYAML)
 		hbox.add(btn)
 
+		btn = gtk.Button(label='Fullscreen')
+		btn.connect('clicked', self._fullscreen)
+		hbox.add(btn)
+
 		vbox.add(hbox)
 
 		self.connect("destroy", gtk.main_quit)
 
 		self.add(vbox)
 		self.show_all()
+
+	def _fullscreen(self, obj):
+		if not self.fs:
+			self.fullscreen()
+		else:
+			self.unfullscreen()
+		self.fs = not self.fs
 
 	def loadYAML(self, obj):
 		dialog = gtk.FileChooserDialog(
